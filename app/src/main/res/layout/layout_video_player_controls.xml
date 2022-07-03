@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/exo_fullscreen"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_fullscreen_24"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/exo_play"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_play_circle_filled_24"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/exo_pause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_pause_circle_filled_24"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+</RelativeLayout>
