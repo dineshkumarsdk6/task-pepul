@@ -54,7 +54,11 @@ class ActivityHomePage : AppCompatActivity(), onClick {
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.title = getString(R.string.app_name)
 
+        //initViewModel
         initViewModel()
+
+        //initRecyclerView
+        initRecyclerView()
 
         if (AppUtils.checkNetworkAvailable(this@ActivityHomePage)) {
             binding.layoutMenu.visibility = View.VISIBLE
@@ -66,8 +70,6 @@ class ActivityHomePage : AppCompatActivity(), onClick {
             binding.layoutWarning.visibility = View.VISIBLE
             binding.textWarning.text = AppUtils.text_net_check
         }
-
-        initRecyclerView()
 
         binding.add.setOnClickListener {
             val intent = Intent(this@ActivityHomePage, ActivityAddFiles::class.java)
@@ -81,7 +83,6 @@ class ActivityHomePage : AppCompatActivity(), onClick {
                 getList("")
             } else {
                 AppUtils.showToast(this@ActivityHomePage, AppUtils.text_net_check)
-
             }
         }
     }
@@ -118,6 +119,7 @@ class ActivityHomePage : AppCompatActivity(), onClick {
         viewModel = ViewModelProvider(this, MyViewModelFactory(MainRepository(apiInterface))).get(
             MainViewModel::class.java
         )
+
         viewModel.list.observe(this, Observer {
             Log.d(TAG, "onCreate: $it")
             binding.progressBar.visibility = View.GONE
@@ -162,18 +164,27 @@ class ActivityHomePage : AppCompatActivity(), onClick {
             }
 
         })
+
         viewModel.deleteStatus.observe(this, Observer {
             val gson = Gson()
             val result = gson.toJson(it)
             println("-- data output : $result")
 
             if (it.message == "success"){
+                if (AppUtils.checkNetworkAvailable(this@ActivityHomePage)) {
+                    binding.layoutMenu.visibility = View.VISIBLE
+                    binding.layoutWarning.visibility = View.GONE
+                    getList("")
+                } else {
+                    AppUtils.showToast(this@ActivityHomePage, AppUtils.text_net_check)
 
+                }
             } else {
                 AppUtils.showToast(this@ActivityHomePage, it.message!!)
             }
             AppUtils.dialogLoading.dismiss()
         })
+
         viewModel.errorMessage.observe(this, Observer {
             AppUtils.showToast(this@ActivityHomePage, it.toString())
         })
